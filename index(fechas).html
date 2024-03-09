@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Fechas</title>
+<style>
+  .formulario-container {
+    width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="formulario-container">
+  <h2>Formulario de Fechas</h2>
+
+  <form id="formularioFechas" onsubmit="return validarFechas()">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+    
+    <label for="fechaInicial">Fecha Inicial:</label>
+    <input type="date" id="fechaInicial" name="fechaInicial" required><br><br>
+    
+    <label for="fechaFinal">Fecha Final:</label>
+    <input type="date" id="fechaFinal" name="fechaFinal" required><br><br>
+    
+    <input type="submit" value="Validar Fechas">
+  </form>
+</div>
+
+<script>
+function validarFechas() {
+  var nombre = document.getElementById("nombre").value;
+  var fechaInicial = document.getElementById("fechaInicial").value;
+  var fechaFinal = document.getElementById("fechaFinal").value;
+  
+  // Convertir las fechas a objetos Date para validar
+  var fechaInicialObj = new Date(fechaInicial);
+  var fechaFinalObj = new Date(fechaFinal);
+  
+  // Verificar si las fechas son iguales
+  if (fechaInicial === fechaFinal) {
+    alert("Las fechas no pueden ser iguales");
+    return false;
+  }
+  
+  // Verificar si la fecha inicial es mayor que la fecha final
+  if (fechaInicialObj.getTime() > fechaFinalObj.getTime()) {
+    alert("La fecha inicial debe ser anterior a la fecha final");
+    return false;
+  }
+  
+  // Verificar si las fechas son válidas
+  if (isNaN(fechaInicialObj.getTime()) || isNaN(fechaFinalObj.getTime())) {
+    alert("Una o ambas fechas son inválidas");
+    return false;
+  }
+  
+  // Calcular la edad a partir de las fechas
+  var edad = calcularEdad(fechaInicialObj, fechaFinalObj);
+  
+  // Verificar si la edad es negativa
+  if (edad.anios < 0) {
+    alert("La edad calculada es negativa, verifica las fechas");
+    return false;
+  }
+  
+  // Mostrar el mensaje de saludo con la edad
+  alert("Hola " + nombre + ", tu edad es de " + edad.anios + " años, " + edad.meses + " meses y " + edad.dias + " días.");
+  return true;
+}
+
+function calcularEdad(fechaInicial, fechaFinal) {
+  var diff = fechaFinal.getTime() - fechaInicial.getTime();
+  var anios = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  var meses = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+  var dias = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+  
+  return {
+    anios: anios,
+    meses: meses,
+    dias: dias
+  };
+}
+</script>
+
+</body>
+</html>

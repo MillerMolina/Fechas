@@ -1,0 +1,7 @@
+.formulario-container {
+    width: 600px;
+    margin: 25px auto;
+    padding: 25px ;
+    border: 12px solid #e47e7e;
+    border-radius: 8px;
+  }
